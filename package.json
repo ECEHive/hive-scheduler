@@ -1,0 +1,7 @@
+{
+	"name": "@ecehive/hive-scheduler",
+	"type": "module",
+	"scripts": {
+		"check": "pnpm -r run check"
+	}
+}

@@ -1,0 +1,19 @@
+# Development
+
+.vscode/
+.idea/
+*.log
+*.tmp
+.env
+
+# Node
+
+node_modules/
+
+# Builds
+
+dist/
+
+# MacOS
+
+.DS_Store
