@@ -1,0 +1,6 @@
+{
+	"name": "hive-scheduler",
+	"dockerComposeFile": "docker-compose.yaml",
+	"service": "node",
+	"workspaceFolder": "/home/node/workspace"
+}

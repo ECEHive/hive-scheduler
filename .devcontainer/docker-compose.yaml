@@ -1,0 +1,22 @@
+services:
+  node:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - ..:/home/node/workspace:cached
+    depends_on:
+      - postgres
+    environment:
+      DATABASE_URL: postgres://postgres:postgres@postgres:5432/hive
+    command: sleep infinity
+
+  postgres:
+    image: postgres:16
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: hive
+    volumes:
+      - ./data/postgres:/var/lib/postgresql/data
