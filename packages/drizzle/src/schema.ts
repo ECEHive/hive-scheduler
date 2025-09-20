@@ -50,6 +50,7 @@ export const shiftSchedule = pgTable("shift_schedule", {
 	startTime: time("start_time").notNull(),
 	endTime: time("end_time").notNull(),
 	priority: integer("priority").notNull().default(0),
+	slots: integer("slots").notNull().default(1),
 
 	createdAt: timestamp("created_at").notNull().defaultNow(),
 	updatedAt: timestamp("updated_at").notNull().defaultNow(),
@@ -71,20 +72,51 @@ export const shiftOccurrences = pgTable(
 	(t) => [unique().on(t.shiftScheduleId, t.timestamp)],
 );
 
-export const shiftScheduleAssignments = pgTable("shift_schedule_assignments", {
-	id: integer("id").primaryKey(),
+export const shiftScheduleAssignments = pgTable(
+	"shift_schedule_assignments",
+	{
+		id: integer("id").primaryKey(),
 
-	shiftScheduleId: integer("shift_schedule_id")
-		.notNull()
-		.references(() => shiftSchedule.id, { onDelete: "cascade" })
-		.unique(),
-	userId: integer("user_id")
-		.notNull()
-		.references(() => users.id, { onDelete: "cascade" }),
+		shiftScheduleId: integer("shift_schedule_id")
+			.notNull()
+			.references(() => shiftSchedule.id, { onDelete: "cascade" }),
+		userId: integer("user_id")
+			.notNull()
+			.references(() => users.id, { onDelete: "cascade" }),
 
-	createdAt: timestamp("created_at").notNull().defaultNow(),
-	updatedAt: timestamp("updated_at").notNull().defaultNow(),
-});
+		createdAt: timestamp("created_at").notNull().defaultNow(),
+		updatedAt: timestamp("updated_at").notNull().defaultNow(),
+	},
+	(t) => [unique().on(t.shiftScheduleId, t.userId)],
+);
+
+export const shiftOccurrenceAssignmentsStatus = pgEnum(
+	"shift_occurrence_assignment_status",
+	["assigned", "dropped", "picked_up", "traded"],
+);
+
+export const shiftOccurrenceAssignments = pgTable(
+	"shift_occurrence_assignments",
+	{
+		id: integer("id").primaryKey(),
+
+		shiftOccurrenceId: integer("shift_occurrence_id")
+			.notNull()
+			.references(() => shiftOccurrences.id, { onDelete: "cascade" }),
+		userId: integer("user_id")
+			.notNull()
+			.references(() => users.id, { onDelete: "cascade" }),
+
+		// assigned, dropped, picked_up, traded
+		status: shiftOccurrenceAssignmentsStatus("status")
+			.notNull()
+			.default("assigned"),
+
+		createdAt: timestamp("created_at").notNull().defaultNow(),
+		updatedAt: timestamp("updated_at").notNull().defaultNow(),
+	},
+	(t) => [unique().on(t.shiftOccurrenceId, t.userId)],
+);
 
 export const shiftAttendanceStatus = pgEnum("shift_attendance_status", [
 	"present",
@@ -96,12 +128,9 @@ export const shiftAttendanceStatus = pgEnum("shift_attendance_status", [
 export const shiftAttendances = pgTable("shift_attendances", {
 	id: integer("id").primaryKey(),
 
-	shiftOccurrenceId: integer("shift_occurrence_id")
+	occurrenceAssignmentId: integer("occurrence_assignment_id")
 		.notNull()
-		.references(() => shiftOccurrences.id, { onDelete: "cascade" }),
-	userId: integer("user_id")
-		.notNull()
-		.references(() => users.id, { onDelete: "cascade" }),
+		.references(() => shiftOccurrenceAssignments.id, { onDelete: "cascade" }),
 
 	status: shiftAttendanceStatus("status").notNull().default("absent"),
 
