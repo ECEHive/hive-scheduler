@@ -1,0 +1,17 @@
+{
+	"name": "@ecehive/api",
+	"type": "module",
+	"scripts": {
+		"check": "biome check --write"
+	},
+	"dependencies": {
+		"@fastify/websocket": "^11.2.0",
+		"@trpc/server": "^11.5.1",
+		"fastify": "^5.6.0",
+		"@ecehive/trpc": "workspace:*"
+	},
+	"devDependencies": {
+		"@biomejs/biome": "2.2.4",
+		"@ecehive/config": "workspace:*"
+	}
+}

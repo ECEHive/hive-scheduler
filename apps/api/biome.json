@@ -1,0 +1,3 @@
+{
+	"extends": ["@ecehive/config/biome/base.json"]
+}
