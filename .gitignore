@@ -6,9 +6,14 @@
 *.tmp
 .env
 
+# Devcontainer
+
+.devcontainer/data/
+
 # Node
 
 node_modules/
+.pnpm-store/
 
 # Builds
 

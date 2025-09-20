@@ -15,16 +15,8 @@
 		"noUnusedParameters": false,
 		"preserveWatchOutput": true,
 		"skipLibCheck": true,
-		"strict": true
+		"strict": true,
+		"lib": ["esnext"]
 	},
-	"exclude": ["node_modules"],
-	"ts-node": {
-		"files": true,
-		"require": ["tsconfig-paths/register"],
-		"experimentalResolverFeatures": true,
-		"compilerOptions": {
-			"module": "CommonJS",
-			"types": ["node"]
-		}
-	}
+	"exclude": ["node_modules"]
 }
