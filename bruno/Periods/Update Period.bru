@@ -1,0 +1,30 @@
+meta {
+  name: Update Period
+  type: http
+  seq: 4
+}
+
+post {
+  url: http://localhost:8080/trpc/periods.updatePeriod
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "json": {
+      "id": 1,
+      "name": "New Name Test Period"
+    },
+    "meta": {
+      "values": {
+        "start": ["Date"],
+        "end": ["Date"]
+      }
+    }
+  }
+}
+
+settings {
+  encodeUrl: true
+}

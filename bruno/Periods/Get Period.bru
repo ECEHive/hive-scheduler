@@ -1,0 +1,19 @@
+meta {
+  name: Get Period
+  type: http
+  seq: 2
+}
+
+get {
+  url: http://localhost:8080/trpc/periods.getPeriod?input={ "json": { "id": 1 } }
+  body: none
+  auth: inherit
+}
+
+params:query {
+  input: { "json": { "id": 1 } }
+}
+
+settings {
+  encodeUrl: true
+}

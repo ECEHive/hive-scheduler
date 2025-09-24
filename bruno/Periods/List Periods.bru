@@ -1,0 +1,19 @@
+meta {
+  name: List Periods
+  type: http
+  seq: 1
+}
+
+get {
+  url: http://localhost:8080/trpc/periods.listPeriods?input={ "json": {} }
+  body: none
+  auth: inherit
+}
+
+params:query {
+  input: { "json": {} }
+}
+
+settings {
+  encodeUrl: true
+}

@@ -1,0 +1,31 @@
+meta {
+  name: Create Period
+  type: http
+  seq: 3
+}
+
+post {
+  url: http://localhost:8080/trpc/periods.createPeriod
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "json": {
+      "name": "Test Period",
+      "start": "2025-09-24T18:09:26.907Z",
+      "end": "2025-09-27T18:09:26.907Z"
+    },
+    "meta": {
+      "values": {
+        "start": ["Date"],
+        "end": ["Date"]
+      }
+    }
+  }
+}
+
+settings {
+  encodeUrl: true
+}

@@ -1,0 +1,9 @@
+{
+  "version": "1",
+  "name": "Hive Scheduler",
+  "type": "collection",
+  "ignore": [
+    "node_modules",
+    ".git"
+  ]
+}
