@@ -7,7 +7,9 @@ import {
 import fastify from "fastify";
 
 const server = fastify({
-	maxParamLength: 5000,
+	routerOptions: {
+		maxParamLength: 5000,
+	},
 });
 
 server.register(fastifyWebsocket);
