@@ -1,0 +1,17 @@
+{
+	"name": "@ecehive/env",
+	"type": "module",
+	"main": "./src/index.ts",
+	"scripts": {
+		"check": "biome check --write"
+	},
+	"devDependencies": {
+		"@biomejs/biome": "2.2.4",
+		"@ecehive/config": "workspace:*"
+	},
+	"dependencies": {
+		"@types/node": "^24.5.2",
+		"dotenv": "^17.2.2",
+		"zod": "^4.1.9"
+	}
+}

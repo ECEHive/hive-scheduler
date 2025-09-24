@@ -10,6 +10,9 @@ importers:
 
   apps/api:
     dependencies:
+      '@ecehive/env':
+        specifier: workspace:*
+        version: link:../../packages/env
       '@ecehive/trpc':
         specifier: workspace:*
         version: link:../../packages/trpc
@@ -29,15 +32,24 @@ importers:
       '@ecehive/config':
         specifier: workspace:*
         version: link:../../packages/config
+      tsx:
+        specifier: ^4.20.5
+        version: 4.20.5
 
   packages/config:
     devDependencies:
       '@biomejs/biome':
         specifier: 2.2.4
         version: 2.2.4
+      '@types/node':
+        specifier: ^24.5.2
+        version: 24.5.2
 
   packages/drizzle:
     dependencies:
+      '@ecehive/env':
+        specifier: workspace:*
+        version: link:../env
       dotenv:
         specifier: ^17.2.2
         version: 17.2.2
@@ -61,11 +73,52 @@ importers:
         specifier: ^0.31.4
         version: 0.31.4
 
+  packages/env:
+    dependencies:
+      '@types/node':
+        specifier: ^24.5.2
+        version: 24.5.2
+      dotenv:
+        specifier: ^17.2.2
+        version: 17.2.2
+      zod:
+        specifier: ^4.1.9
+        version: 4.1.9
+    devDependencies:
+      '@biomejs/biome':
+        specifier: 2.2.4
+        version: 2.2.4
+      '@ecehive/config':
+        specifier: workspace:*
+        version: link:../config
+
+  packages/transformer:
+    dependencies:
+      zod:
+        specifier: ^4.1.9
+        version: 4.1.9
+    devDependencies:
+      '@biomejs/biome':
+        specifier: 2.2.4
+        version: 2.2.4
+      '@ecehive/config':
+        specifier: workspace:*
+        version: link:../config
+      '@types/node':
+        specifier: ^24.5.2
+        version: 24.5.2
+      tsx:
+        specifier: ^4.20.5
+        version: 4.20.5
+
   packages/trpc:
     dependencies:
       '@ecehive/drizzle':
         specifier: workspace:*
         version: link:../drizzle
+      '@ecehive/transformer':
+        specifier: workspace:*
+        version: link:../transformer
       '@trpc/client':
         specifier: ^11.5.1
         version: 11.5.1(@trpc/server@11.5.1(typescript@5.9.2))(typescript@5.9.2)
@@ -478,8 +531,8 @@ packages:
     peerDependencies:
       typescript: '>=5.7.2'
 
-  '@types/node@24.5.1':
-    resolution: {integrity: sha512-/SQdmUP2xa+1rdx7VwB9yPq8PaKej8TD5cQ+XfKDPWWC+VDJU4rvVVagXqKUzhKjtFoNA8rXDJAkCxQPAe00+Q==}
+  '@types/node@24.5.2':
+    resolution: {integrity: sha512-FYxk1I7wPv3K2XBaoyH2cTnocQEu8AOZ60hPbsyukMPLv5/5qr7V1i8PLHdl6Zf87I+xZXFvPCXYjiTFq+YSDQ==}
 
   '@types/pg@8.15.5':
     resolution: {integrity: sha512-LF7lF6zWEKxuT3/OR8wAZGzkg4ENGXFNyiV/JeOt9z5B+0ZVwbql9McqX5c/WStFq1GaGso7H1AzP/qSzmlCKQ==}
@@ -682,6 +735,11 @@ packages:
     resolution: {integrity: sha512-eRoFWQw+Yv2tuYlK2pjFS2jGXSxSppAs3hSQjfxVKxM5amECzIgYYc1FEI8ZmhSh/Ig+FrKEz43NLRKJjYCZVg==}
     engines: {node: '>=20'}
 
+  fsevents@2.3.3:
+    resolution: {integrity: sha512-5xoDfX+fL7faATnagmWPpbFtwh/R77WmMMqqHGS65C3vvB0YHrgF+B1YmZ3441tMj5n63k0212XNoJwzlhffQw==}
+    engines: {node: ^8.16.0 || ^10.6.0 || >=11.0.0}
+    os: [darwin]
+
   get-tsconfig@4.10.1:
     resolution: {integrity: sha512-auHyJ4AgMz7vgS8Hp3N6HXSmlMdUyhSUrfBF16w153rxtLIEOE+HGqaBppczZvnHLqQJfiHotCYpNhl0lUROFQ==}
 
@@ -861,6 +919,11 @@ packages:
   toad-cache@3.7.0:
     resolution: {integrity: sha512-/m8M+2BJUpoJdgAHoG+baCwBT+tf2VraSfkBgl0Y00qIWt41DJ8R5B8nsEw0I58YwF5IZH6z24/2TobDKnqSWw==}
     engines: {node: '>=12'}
+
+  tsx@4.20.5:
+    resolution: {integrity: sha512-+wKjMNU9w/EaQayHXb7WA7ZaHY6hN8WgfvHNQ3t1PnU91/7O8TcTnIhCDYTZwnt8JsO9IBqZ30Ln1r7pPF52Aw==}
+    engines: {node: '>=18.0.0'}
+    hasBin: true
 
   typescript@5.9.2:
     resolution: {integrity: sha512-CWBzXQrc/qOkhidw1OzBTQuYRbfyxDXJMVJ1XNwUHGROVmuaeiEm3OslpZ1RV96d7SKKjZKrSJu3+t/xlw3R9A==}
@@ -1129,13 +1192,13 @@ snapshots:
     dependencies:
       typescript: 5.9.2
 
-  '@types/node@24.5.1':
+  '@types/node@24.5.2':
     dependencies:
       undici-types: 7.12.0
 
   '@types/pg@8.15.5':
     dependencies:
-      '@types/node': 24.5.1
+      '@types/node': 24.5.2
       pg-protocol: 1.10.3
       pg-types: 2.2.0
 
@@ -1312,6 +1375,9 @@ snapshots:
       fast-querystring: 1.1.2
       safe-regex2: 5.0.0
 
+  fsevents@2.3.3:
+    optional: true
+
   get-tsconfig@4.10.1:
     dependencies:
       resolve-pkg-maps: 1.0.0
@@ -1473,6 +1539,13 @@ snapshots:
       real-require: 0.2.0
 
   toad-cache@3.7.0: {}
+
+  tsx@4.20.5:
+    dependencies:
+      esbuild: 0.25.9
+      get-tsconfig: 4.10.1
+    optionalDependencies:
+      fsevents: 2.3.3
 
   typescript@5.9.2: {}
 
