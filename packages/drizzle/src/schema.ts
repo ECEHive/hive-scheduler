@@ -1,5 +1,4 @@
 import {
-	date,
 	integer,
 	pgEnum,
 	pgTable,
@@ -10,7 +9,7 @@ import {
 } from "drizzle-orm/pg-core";
 
 export const users = pgTable("users", {
-	id: integer("id").primaryKey(),
+	id: integer("id").primaryKey().generatedByDefaultAsIdentity(),
 
 	username: text("username").notNull(),
 	name: text("name").notNull(),
@@ -21,19 +20,19 @@ export const users = pgTable("users", {
 });
 
 export const periods = pgTable("periods", {
-	id: integer("id").primaryKey(),
+	id: integer("id").primaryKey().generatedByDefaultAsIdentity(),
 
 	name: text("name").notNull(),
 
-	start: date("start").notNull(),
-	end: date("end").notNull(),
+	start: timestamp("start").notNull(),
+	end: timestamp("end").notNull(),
 
 	createdAt: timestamp("created_at").notNull().defaultNow(),
 	updatedAt: timestamp("updated_at").notNull().defaultNow(),
 });
 
 export const shiftSchedule = pgTable("shift_schedule", {
-	id: integer("id").primaryKey(),
+	id: integer("id").primaryKey().generatedByDefaultAsIdentity(),
 
 	periodId: integer("period_id")
 		.notNull()
@@ -59,7 +58,7 @@ export const shiftSchedule = pgTable("shift_schedule", {
 export const shiftOccurrences = pgTable(
 	"shift_occurrences",
 	{
-		id: integer("id").primaryKey(),
+		id: integer("id").primaryKey().generatedByDefaultAsIdentity(),
 
 		shiftScheduleId: integer("shift_schedule_id")
 			.notNull()
@@ -75,7 +74,7 @@ export const shiftOccurrences = pgTable(
 export const shiftScheduleAssignments = pgTable(
 	"shift_schedule_assignments",
 	{
-		id: integer("id").primaryKey(),
+		id: integer("id").primaryKey().generatedByDefaultAsIdentity(),
 
 		shiftScheduleId: integer("shift_schedule_id")
 			.notNull()
@@ -98,7 +97,7 @@ export const shiftOccurrenceAssignmentsStatus = pgEnum(
 export const shiftOccurrenceAssignments = pgTable(
 	"shift_occurrence_assignments",
 	{
-		id: integer("id").primaryKey(),
+		id: integer("id").primaryKey().generatedByDefaultAsIdentity(),
 
 		shiftOccurrenceId: integer("shift_occurrence_id")
 			.notNull()
@@ -126,7 +125,7 @@ export const shiftAttendanceStatus = pgEnum("shift_attendance_status", [
 ]);
 
 export const shiftAttendances = pgTable("shift_attendances", {
-	id: integer("id").primaryKey(),
+	id: integer("id").primaryKey().generatedByDefaultAsIdentity(),
 
 	occurrenceAssignmentId: integer("occurrence_assignment_id")
 		.notNull()
