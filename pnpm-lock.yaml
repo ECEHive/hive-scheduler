@@ -92,33 +92,11 @@ importers:
         specifier: workspace:*
         version: link:../config
 
-  packages/transformer:
-    dependencies:
-      zod:
-        specifier: ^4.1.9
-        version: 4.1.9
-    devDependencies:
-      '@biomejs/biome':
-        specifier: 2.2.4
-        version: 2.2.4
-      '@ecehive/config':
-        specifier: workspace:*
-        version: link:../config
-      '@types/node':
-        specifier: ^24.5.2
-        version: 24.5.2
-      tsx:
-        specifier: ^4.20.5
-        version: 4.20.5
-
   packages/trpc:
     dependencies:
       '@ecehive/drizzle':
         specifier: workspace:*
         version: link:../drizzle
-      '@ecehive/transformer':
-        specifier: workspace:*
-        version: link:../transformer
       '@trpc/client':
         specifier: ^11.5.1
         version: 11.5.1(@trpc/server@11.5.1(typescript@5.9.2))(typescript@5.9.2)
