@@ -1,0 +1,14 @@
+{
+	"$schema": "https://biomejs.dev/schemas/2.2.4/schema.json",
+	"extends": ["@ecehive/config/biome/base.json"],
+	"files": {
+		"includes": ["**", "!src/routeTree.gen.ts", "!src/components/ui"]
+	},
+	"linter": {
+		"rules": {
+			"suspicious": {
+				"noUnknownAtRules": "off"
+			}
+		}
+	}
+}
