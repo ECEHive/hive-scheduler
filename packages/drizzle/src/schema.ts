@@ -8,12 +8,16 @@ import {
 	unique,
 } from "drizzle-orm/pg-core";
 
+export const userRole = pgEnum("user_role", ["admin", "user", "guest"]);
+
 export const users = pgTable("users", {
 	id: integer("id").primaryKey().generatedByDefaultAsIdentity(),
 
 	username: text("username").notNull(),
 	name: text("name").notNull(),
 	email: text("email").notNull(),
+
+	role: userRole("role").notNull().default("guest"),
 
 	createdAt: timestamp("created_at").notNull().defaultNow(),
 	updatedAt: timestamp("updated_at").notNull().defaultNow(),

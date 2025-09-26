@@ -14,6 +14,7 @@
 	"devDependencies": {
 		"@biomejs/biome": "2.2.4",
 		"@ecehive/config": "workspace:*",
+		"@types/node": "^24.5.2",
 		"@types/pg": "^8.15.5",
 		"drizzle-kit": "^0.31.4"
 	}

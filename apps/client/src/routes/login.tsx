@@ -1,13 +1,22 @@
 import { trpc } from "@ecehive/trpc/client";
 import { useQuery } from "@tanstack/react-query";
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, useRouter } from "@tanstack/react-router";
 import { useEffect, useMemo } from "react";
+import { useAuth } from "@/auth/AuthProvider";
+import { Button } from "@/components/ui/button";
+import {
+	Card,
+	CardContent,
+	CardDescription,
+	CardHeader,
+	CardTitle,
+} from "@/components/ui/card";
 
-export const Route = createFileRoute("/login")({
-	component: Login,
-});
+export const Route = createFileRoute("/login")({ component: Login });
 
 function Login() {
+	const { setToken, status } = useAuth();
+	const router = useRouter();
 	const params = useMemo(() => {
 		if (typeof window === "undefined") return new URLSearchParams("");
 		return new URLSearchParams(window.location.search);
@@ -15,17 +24,14 @@ function Login() {
 
 	const ticket = params.get("ticket") ?? "";
 	const service = params.get("service") ?? "";
+	const returnTo = params.get("returnTo") ?? "/app";
 
+	// If already authenticated, go to returnTo
 	useEffect(() => {
-		if (typeof window === "undefined") return;
-
-		// If both are missing or empty, redirect to CAS with a redirect back to this page
-		if (!ticket && !service) {
-			const redirect = encodeURIComponent(window.location.href);
-			const casUrl = `https://sites.gatech.edu/lemons/cas-d?redirect=${redirect}`;
-			window.location.href = casUrl;
+		if (status === "authenticated") {
+			void router.navigate({ to: returnTo });
 		}
-	}, [ticket, service]);
+	}, [status, router, returnTo]);
 
 	const { data, isLoading, error } = useQuery({
 		queryKey: ["login", ticket, service],
@@ -36,34 +42,75 @@ function Login() {
 		retry: false,
 	});
 
-	if (!ticket && !service) return null; // redirecting
+	useEffect(() => {
+		if (data?.token) {
+			setToken(data.token);
+			void router.navigate({ to: returnTo });
+		}
+	}, [data?.token, setToken, router, returnTo]);
+
+	// Start CAS login on demand
+	const startCasLogin = () => {
+		if (typeof window === "undefined") return;
+		const current = new URL(window.location.href);
+		if (!current.searchParams.get("returnTo"))
+			current.searchParams.set("returnTo", returnTo);
+		const redirect = encodeURIComponent(current.toString());
+		const casUrl = `https://sites.gatech.edu/lemons/cas-d?redirect=${redirect}`;
+		window.location.href = casUrl;
+	};
 
 	return (
-		<div className="p-2">
-			<h1 className="text-lg font-semibold mb-2">Login</h1>
-
-			{isLoading && <div>Completing login...</div>}
-
-			{error && <div className="text-red-600">Error completing login.</div>}
-
-			{data ? (
-				<div>
-					<div className="mb-2">Login completed successfully.</div>
-					<div>
-						<strong>Token:</strong>
-						<pre className="break-words bg-green-800 p-2 rounded mt-1">
-							{data.token}
-						</pre>
+		<div className="bg-muted flex min-h-svh flex-col items-center justify-center gap-6 p-6 md:p-10">
+			<div className="flex w-full max-w-sm flex-col gap-6">
+				<a href="#" className="flex items-center gap-2 self-center font-medium">
+					<div className="bg-primary text-primary-foreground flex size-6 items-center justify-center rounded-md">
+						{/* Simple logo dot */}
+						<div className="size-2 rounded-full bg-primary-foreground" />
+					</div>
+					Hive Shift Scheduler
+				</a>
+				<div className="flex flex-col gap-6">
+					<Card>
+						<CardHeader className="text-center">
+							<CardTitle className="text-xl">Welcome back</CardTitle>
+							<CardDescription>
+								Sign in with your Georgia Tech Account
+							</CardDescription>
+						</CardHeader>
+						<CardContent>
+							{ticket && service ? (
+								<div>
+									{isLoading && (
+										<div className="text-muted-foreground">
+											Validating your ticket…
+										</div>
+									)}
+									{error && (
+										<div className="border border-destructive/30 bg-destructive/10 text-destructive rounded-md p-3 mt-3">
+											<div className="font-medium mb-1">Login failed</div>
+											<div className="text-sm">
+												{(error as any)?.message ??
+													"An unexpected error occurred."}
+											</div>
+										</div>
+									)}
+								</div>
+							) : (
+								<div className="grid gap-6">
+									<Button onClick={startCasLogin} className="w-full">
+										Login with GT SSO
+									</Button>
+								</div>
+							)}
+						</CardContent>
+					</Card>
+					<div className="text-muted-foreground *:[a]:hover:text-primary text-center text-xs text-balance *:[a]:underline *:[a]:underline-offset-4">
+						Use of this application is for authorized Hive Makerspace members
+						with Georgia Tech accounts only.
 					</div>
 				</div>
-			) : (
-				!isLoading && (
-					<div>
-						No login data yet. If you were redirected back from CAS, the request
-						will run automatically.
-					</div>
-				)
-			)}
+			</div>
 		</div>
 	);
 }

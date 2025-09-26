@@ -1,5 +1,5 @@
 import { db, users } from "@ecehive/drizzle";
-import { initTRPC } from "@trpc/server";
+import { initTRPC, TRPCError } from "@trpc/server";
 import { eq } from "drizzle-orm";
 import superjson from "superjson";
 import type { Context } from "./context";
@@ -13,7 +13,10 @@ export const publicProcedure = t.procedure;
 
 export const protectedProcedure = t.procedure.use(async (opts) => {
 	if (!opts.ctx.userId) {
-		throw new Error("Unauthorized");
+		throw new TRPCError({
+			code: "UNAUTHORIZED",
+			message: "Not authorized, please login",
+		});
 	}
 
 	const findUserResult = await db
@@ -23,7 +26,10 @@ export const protectedProcedure = t.procedure.use(async (opts) => {
 	const user = findUserResult[0];
 
 	if (!user) {
-		throw new Error("User not found");
+		throw new TRPCError({
+			code: "INTERNAL_SERVER_ERROR",
+			message: "User not found",
+		});
 	}
 
 	return opts.next({
