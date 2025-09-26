@@ -37,6 +37,10 @@ Shift scheduling system for The Hive Makerspace at Georgia Tech.
 	cd ./apps/client && pnpm dev
 	```
 
+> You will receive an HTTPS warning when visiting the client. You can ignore this warning and proceed to the site.
+
+> Safari may have issues when making API requests, so use a Firefox or Chromium based browser when testing.
+
 Both the client and the server must be running for everything to be functional. The client will hot-reload, the server will not.
 
 ## Contributing
