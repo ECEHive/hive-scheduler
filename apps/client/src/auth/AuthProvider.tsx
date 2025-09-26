@@ -86,11 +86,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 	// Optional: react to UNAUTHORIZED errors by clearing token
 	useEffect(() => {
 		if (!error) return;
-		// tRPC errors have a "data.code" or "shape.code" depending on link, but we keep it generic
-		const code =
-			(error as any)?.data?.code ??
-			(error as any)?.shape?.code ??
-			(error as any)?.code;
+		const code = error.name ?? error.message;
 		if (code === "UNAUTHORIZED") {
 			setToken(null);
 		}

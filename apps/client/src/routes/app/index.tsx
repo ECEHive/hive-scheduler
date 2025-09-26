@@ -1,7 +1,4 @@
-import { createFileRoute, Outlet } from "@tanstack/react-router";
-import { RequireAuth } from "@/auth/AuthProvider";
-import { AppSidebar } from "@/components/app-sidebar";
-import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
+import { createFileRoute } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/app/")({
 	component: AppIndexLayout,
