@@ -10,7 +10,8 @@
 	},
 	"devDependencies": {
 		"@biomejs/biome": "2.2.4",
-		"@ecehive/config": "workspace:*"
+		"@ecehive/config": "workspace:*",
+		"vite": "^7.1.7"
 	},
 	"dependencies": {
 		"@ecehive/auth": "workspace:*",

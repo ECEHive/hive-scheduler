@@ -1,4 +1,4 @@
 {
 	"extends": "@ecehive/config/tsconfig/base.json",
-	"include": ["client", "server"]
+	"include": ["server"]
 }

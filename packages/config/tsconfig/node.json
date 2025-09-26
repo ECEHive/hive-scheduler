@@ -4,6 +4,8 @@
 	"extends": "./base.json",
 	"compilerOptions": {
 		"types": ["@types/node"],
-		"lib": ["DOM"]
+		"lib": ["DOM"],
+		"moduleResolution": "nodenext",
+		"module": "nodenext"
 	}
 }

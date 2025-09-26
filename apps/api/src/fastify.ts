@@ -1,4 +1,5 @@
 import { type AppRouter, appRouter, createContext } from "@ecehive/trpc/server";
+import cors from "@fastify/cors";
 import fastifyWebsocket from "@fastify/websocket";
 import {
 	type FastifyTRPCPluginOptions,
@@ -10,6 +11,15 @@ const server = fastify({
 	routerOptions: {
 		maxParamLength: 5000,
 	},
+});
+
+const allowedOrigins = process.env.CORS_ORIGINS
+	? process.env.CORS_ORIGINS.split(",")
+	: "*";
+
+server.register(cors, {
+	origin: allowedOrigins,
+	credentials: true, // Allow cookies/auth headers
 });
 
 server.register(fastifyWebsocket);

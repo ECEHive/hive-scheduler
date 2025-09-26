@@ -1,3 +1,4 @@
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { createRouter, RouterProvider } from "@tanstack/react-router";
 import { StrictMode } from "react";
 import ReactDOM from "react-dom/client";
@@ -17,6 +18,9 @@ declare module "@tanstack/react-router" {
 	}
 }
 
+// React Query
+const queryClient = new QueryClient();
+
 // Render root
 const rootElement = document.getElementById("root");
 if (!rootElement) {
@@ -27,9 +31,11 @@ if (!rootElement.innerHTML) {
 	const root = ReactDOM.createRoot(rootElement);
 	root.render(
 		<StrictMode>
-			<ThemeProvider defaultTheme="dark" storageKey="ui-theme">
-				<RouterProvider router={router} />
-			</ThemeProvider>
+			<QueryClientProvider client={queryClient}>
+				<ThemeProvider defaultTheme="dark" storageKey="ui-theme">
+					<RouterProvider router={router} />
+				</ThemeProvider>
+			</QueryClientProvider>
 		</StrictMode>,
 	);
 }

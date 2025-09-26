@@ -7,6 +7,7 @@
 	"dependencies": {
 		"@ecehive/env": "workspace:*",
 		"@ecehive/trpc": "workspace:*",
+		"@fastify/cors": "^11.1.0",
 		"@fastify/websocket": "^11.2.0",
 		"@trpc/server": "^11.5.1",
 		"fastify": "^5.6.0"
