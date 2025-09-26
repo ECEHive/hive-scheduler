@@ -9,8 +9,6 @@
 		"forceConsistentCasingInFileNames": true,
 		"inlineSources": false,
 		"isolatedModules": true,
-		"moduleResolution": "nodenext",
-		"module": "nodenext",
 		"noImplicitAny": true,
 		"noUnusedLocals": false,
 		"noUnusedParameters": false,
