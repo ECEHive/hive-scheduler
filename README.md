@@ -4,7 +4,7 @@ Shift scheduling system for The Hive Makerspace at Georgia Tech.
 
 ## Structure
 
-- `apps/` Seperate applications. For example, the client and the API.
+- `apps/` Separate applications. For example, the client and the API.
 - `packages/` Shared code between applications.
 
 ## Setup
