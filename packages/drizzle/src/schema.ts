@@ -1,4 +1,5 @@
 import {
+	boolean,
 	integer,
 	pgEnum,
 	pgTable,
@@ -18,6 +19,31 @@ export const users = pgTable("users", {
 	email: text("email").notNull(),
 
 	role: userRole("role").notNull().default("guest"),
+
+	createdAt: timestamp("created_at").notNull().defaultNow(),
+	updatedAt: timestamp("updated_at").notNull().defaultNow(),
+});
+
+export const userTags = pgTable(
+	"user_tags",
+	{
+		id: integer("id").primaryKey().generatedByDefaultAsIdentity(),
+
+		userId: integer("user_id")
+			.notNull()
+			.references(() => users.id, { onDelete: "cascade" }),
+		tag: text("tag").notNull(),
+
+		createdAt: timestamp("created_at").notNull().defaultNow(),
+		updatedAt: timestamp("updated_at").notNull().defaultNow(),
+	},
+	(t) => [unique().on(t.userId, t.tag)],
+);
+
+export const tag = pgTable("tags", {
+	id: integer("id").primaryKey().generatedByDefaultAsIdentity(),
+
+	name: text("name").notNull().unique(),
 
 	createdAt: timestamp("created_at").notNull().defaultNow(),
 	updatedAt: timestamp("updated_at").notNull().defaultNow(),
@@ -52,8 +78,10 @@ export const shiftSchedule = pgTable("shift_schedule", {
 	duration: integer("duration").notNull(),
 	startTime: time("start_time").notNull(),
 	endTime: time("end_time").notNull(),
-	priority: integer("priority").notNull().default(0),
 	slots: integer("slots").notNull().default(1),
+
+	isRestrictedToTags: boolean("is_restricted_to_tags").notNull().default(false),
+	canManuallyAdd: boolean("can_manually_add").notNull().default(true),
 
 	createdAt: timestamp("created_at").notNull().defaultNow(),
 	updatedAt: timestamp("updated_at").notNull().defaultNow(),
