@@ -1,8 +1,11 @@
+import { validateToken } from "@ecehive/auth";
 import type { CreateFastifyContextOptions } from "@trpc/server/adapters/fastify";
 
-export function createContext({ req, res }: CreateFastifyContextOptions) {
-	const user = { name: req.headers.username ?? "anonymous" };
-	return { req, res, user };
+export async function createContext({ req, res }: CreateFastifyContextOptions) {
+	const token = req.headers.authorization?.split(" ")[1];
+	const userId = token ? await validateToken(token) : null;
+
+	return { req, res, userId, token };
 }
 
 export type Context = Awaited<ReturnType<typeof createContext>>;
