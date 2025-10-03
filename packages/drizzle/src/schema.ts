@@ -57,6 +57,18 @@ export const periods = pgTable("periods", {
 	start: timestamp("start").notNull(),
 	end: timestamp("end").notNull(),
 
+	// Date range of when the period is visible to users
+	visibleStart: timestamp("visible_start"),
+	visibleEnd: timestamp("visible_end"),
+
+	// Date range of when users can sign up for shifts
+	scheduleSignupStart: timestamp("schedule_signup_start"),
+	scheduleSignupEnd: timestamp("schedule_signup_end"),
+
+	// Date range of when users can modify (drop/trade) assigned shifts
+	scheduleModifyStart: timestamp("schedule_modify_start"),
+	scheduleModifyEnd: timestamp("schedule_modify_end"),
+
 	createdAt: timestamp("created_at").notNull().defaultNow(),
 	updatedAt: timestamp("updated_at").notNull().defaultNow(),
 });
@@ -80,8 +92,19 @@ export const shiftSchedule = pgTable("shift_schedule", {
 	endTime: time("end_time").notNull(),
 	slots: integer("slots").notNull().default(1),
 
-	isRestrictedToTags: boolean("is_restricted_to_tags").notNull().default(false),
-	canManuallyAdd: boolean("can_manually_add").notNull().default(true),
+	isBalancedAcrossOverlap: boolean("is_balanced_across_overlap")
+		.notNull()
+		.default(false),
+	isBalancedAcrossDay: boolean("is_balanced_across_day")
+		.notNull()
+		.default(false),
+	isBalancedAcrossPeriod: boolean("is_balanced_across_period")
+		.notNull()
+		.default(false),
+	canSelfAssign: boolean("allow_self_assign").notNull().default(true),
+
+	doRequireTags: boolean("do_require_tags").notNull().default(false),
+	requiredTags: text("required_tags").array().notNull().default([]),
 
 	createdAt: timestamp("created_at").notNull().defaultNow(),
 	updatedAt: timestamp("updated_at").notNull().defaultNow(),
@@ -123,7 +146,7 @@ export const shiftScheduleAssignments = pgTable(
 
 export const shiftOccurrenceAssignmentsStatus = pgEnum(
 	"shift_occurrence_assignment_status",
-	["assigned", "dropped", "picked_up", "traded"],
+	["assigned", "dropped", "picked_up"],
 );
 
 export const shiftOccurrenceAssignments = pgTable(
