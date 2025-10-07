@@ -15,7 +15,7 @@ export default defineConfig(({ mode }) => {
 			https: {},
 			proxy: {
 				"/trpc": {
-					target: env.VITE_PUBLIC_API_URL,
+					target: env.VITE_PRIVATE_API_URL,
 					changeOrigin: true,
 				},
 			},
