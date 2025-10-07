@@ -13,7 +13,7 @@ const getBaseUrl = () => {
 
 	// Use public API URL if specified in production, else fallback to relative
 	return import.meta.env.VITE_PUBLIC_API_URL ?? "";
-}
+};
 
 export const trpc = createTRPCClient<AppRouter>({
 	links: [
